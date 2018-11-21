@@ -9,6 +9,7 @@ import { MediaTypesSwitch } from '../MediaTypeSwitch/MediaTypesSwitch';
 import { Schema } from '../Schema';
 
 import { MediaContentModel } from '../../services';
+import { Markdown } from '../Markdown/Markdown';
 
 function safePush(obj, prop, item) {
   if (!obj[prop]) {
@@ -44,13 +45,14 @@ export class Parameters extends React.PureComponent<ParametersProps> {
     const paramsPlaces = parameters.length > 0 ? PARAM_PLACES : [];
 
     const bodyContent = body && body.content;
+    const bodyDescription = body && body.description;
 
     return (
       <div>
         {paramsPlaces.map(place => (
           <ParametersGroup key={place} place={place} parameters={paramsMap[place]} />
         ))}
-        {bodyContent && <BodyContent content={bodyContent} />}
+        {bodyContent && <BodyContent content={bodyContent} description={bodyDescription} />}
       </div>
     );
   }
@@ -64,13 +66,16 @@ function DropdownWithinHeader(props) {
   );
 }
 
-function BodyContent(props: { content: MediaContentModel }): JSX.Element {
-  const { content } = props;
+function BodyContent(props: { content: MediaContentModel, description?: string }): JSX.Element {
+  const { content, description } = props;
   return (
-    <MediaTypesSwitch content={content} renderDropdown={DropdownWithinHeader}>
-      {({ schema }) => {
-        return <Schema skipReadOnly={true} key="schema" schema={schema} />;
-      }}
-    </MediaTypesSwitch>
+    <div>
+      {description && <Markdown source={description} />}
+      <MediaTypesSwitch content={content} renderDropdown={DropdownWithinHeader}>
+        {({ schema }) => {
+          return <Schema skipReadOnly={true} key="schema" schema={schema} />;
+        }}
+      </MediaTypesSwitch>
+    </div>
   );
 }
