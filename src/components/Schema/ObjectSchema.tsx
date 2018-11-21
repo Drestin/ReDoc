@@ -50,11 +50,11 @@ export class ObjectSchema extends React.Component<ObjectSchemaProps> {
 
     const filteredFields = needFilter
       ? fields.filter(item => {
-          return (
-            (this.props.skipReadOnly && !item.schema.readOnly) ||
-            (this.props.skipWriteOnly && !item.schema.writeOnly)
-          );
-        })
+        return (
+          (this.props.skipReadOnly && !item.schema.readOnly) ||
+          (this.props.skipWriteOnly && !item.schema.writeOnly)
+        );
+      })
       : fields;
 
     return (
@@ -63,7 +63,7 @@ export class ObjectSchema extends React.Component<ObjectSchemaProps> {
           <ObjectSchemaTitle>{this.props.schema.title}</ObjectSchemaTitle>
 
           <ObjectSchemaDescription>
-            <Markdown dense={true} source={this.props.schema.description} />
+            <Markdown source={this.props.schema.description} />
           </ObjectSchemaDescription>
         </ObjectSchemaDetails>
 
